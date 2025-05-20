@@ -1,0 +1,39 @@
+# Desafio de Projeto: Integração MySQL Azure e Power BI
+
+**Data de Execução:** 2025-05-20  
+**Autor:** [Seu Nome]  
+
+## 📌 Etapas Executadas
+
+### 1. Criação da Instância MySQL na Azure
+- Recurso criado: Azure Database for MySQL – Flexible Server.
+- Região: Brazil South.
+- Nome do servidor: `mysql-desafio-empresa.mysql.database.azure.com`
+
+### 2. Importação do Script SQL
+- Script `create_db.sql` executado via MySQL Workbench.
+- Banco criado com tabelas: `employee`, `department`, `dept_locations`, `project`, `works_on`.
+
+### 3. Configuração da Regra de Firewall
+- IPs públicos liberados para acesso externo (Workbench e Power BI).
+
+### 4. Integração com Power BI
+- Conexão via conector nativo "Banco de dados MySQL".
+- Credenciais testadas com sucesso.
+- Tabelas importadas.
+
+### 5. Transformações Realizadas (Power Query)
+- Conversão de valores monetários para decimal (salário, horas).
+- Junções:
+  - `employee` + `department`
+  - `employee` + `employee` (para nome do gerente)
+- Colunas criadas:
+  - `NomeCompleto`: mescla de `Fname` e `Lname`
+  - `Depto_Local`: mescla `Dname` e `Dlocation`
+
+### 6. Query SQL Utilizada
+```sql
+SELECT e.Ssn, e.Fname, e.Lname, e.Dno, d.Dname, g.Fname AS Gerente
+FROM employee e
+LEFT JOIN department d ON e.Dno = d.Dnumber
+LEFT JOIN employee g ON e.Super_ssn = g.Ssn;
